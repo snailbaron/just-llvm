@@ -1,0 +1,31 @@
+module(name = "just-llvm")
+
+bazel_dep(name = "bazel_skylib", version = "1.9.0")
+bazel_dep(name = "rules_cc", version = "0.2.16")
+
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "llvm",
+    build_file_content = """\
+exports_files(glob(["**"]))
+
+filegroup(
+    name = "cxx_headers",
+    srcs = glob([
+        "include/x86_64-unknown-linux-gnu/c++/v1/**",
+        "include/c++/v1/**",
+        "lib/clang/21/include/**",
+    ]),
+    visibility = ["//visibility:public"],
+)
+""",
+    sha256 = "b3b7f2801d15d50736acea3c73982994d025b01c2f035b91ae3b49d1b575732b",
+    strip_prefix = "LLVM-21.1.8-Linux-X64",
+    url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/LLVM-21.1.8-Linux-X64.tar.xz",
+)
+
+register_toolchains(
+    "//toolchain:llvm",
+    dev_dependency = True,
+)

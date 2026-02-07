@@ -1,0 +1,28 @@
+package(default_visibility = ["//toolchain/cc:__pkg__"])
+
+filegroup(
+    name = "compiler_files",
+    srcs = [
+        "@llvm//:bin/clang",
+        "@llvm//:bin/clang++",
+        "@llvm//:cxx_headers",
+    ],
+)
+
+filegroup(
+    name = "linker_files",
+    srcs = [
+        "@llvm//:bin/clang",
+        "@llvm//:bin/clang++",
+        "@llvm//:lib/x86_64-unknown-linux-gnu/libc++.a",
+        "@llvm//:lib/x86_64-unknown-linux-gnu/libc++abi.a",
+        "@llvm//:lib/x86_64-unknown-linux-gnu/libunwind.a",
+    ],
+)
+
+filegroup(
+    name = "all_files",
+    srcs = [
+        ":compiler_files",
+    ],
+)

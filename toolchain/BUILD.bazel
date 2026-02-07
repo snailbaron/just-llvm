@@ -1,0 +1,5 @@
+toolchain(
+    name = "llvm",
+    toolchain = "//toolchain/cc:llvm",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)
