@@ -1,11 +1,25 @@
-load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+cc_library(
+    name = "c-library",
+    srcs = ["c-library.c"],
+    hdrs = ["c-library.h"],
+)
 
 cc_binary(
     name = "c-hello",
     srcs = ["hello.c"],
+    deps = [":c-library"],
+)
+
+cc_library(
+    name = "cxx-library",
+    srcs = ["cxx-library.cpp"],
+    hdrs = ["cxx-library.hpp"],
 )
 
 cc_binary(
     name = "cxx-hello",
     srcs = ["hello.cpp"],
+    deps = [":cxx-library"],
 )

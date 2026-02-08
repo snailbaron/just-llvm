@@ -1,6 +1,6 @@
-#include <print>
+#include "cxx-library.hpp"
 
 int main()
 {
-    std::println("hello!");
+    hello();
 }

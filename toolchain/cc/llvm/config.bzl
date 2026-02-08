@@ -67,9 +67,7 @@ FEATURES = [
         name = "verbose-compile",
         flag_sets = [
             flag_set(
-                actions = [
-                    ACTION_NAME_GROUPS.all_cc_compile_actions,
-                ],
+                actions = ACTION_NAME_GROUPS.all_cc_compile_actions,
                 flag_groups = [flag_group(flags = ["--verbose"])],
             ),
         ],
@@ -136,6 +134,11 @@ def _toolchain_config_impl(ctx):
                 action_name = ACTION_NAMES.cpp_link_executable,
                 tools = [tool(tool = ctx.file._clangxx)],
             ),
+            action_config(
+                action_name = ACTION_NAMES.cpp_link_static_library,
+                tools = [tool(tool = ctx.file._llvm_ar)],
+                implies = ["archiver_flags", "linker_param_file"],
+            ),
         ],
         cxx_builtin_include_directories = [
             paths.join(llvm_root, "include/x86_64-unknown-linux-gnu/c++/v1"),
@@ -155,6 +158,10 @@ toolchain_config = rule(
         ),
         "_clangxx": attr.label(
             default = "@llvm//:bin/clang++",
+            allow_single_file = True,
+        ),
+        "_llvm_ar": attr.label(
+            default = "@llvm//:bin/llvm-ar",
             allow_single_file = True,
         ),
     },

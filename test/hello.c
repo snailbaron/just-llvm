@@ -1,6 +1,6 @@
-#include <stdio.h>
+#include "c-library.h"
 
 int main()
 {
-    printf("hello!\n");
+    hello();
 }

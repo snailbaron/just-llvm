@@ -9,6 +9,7 @@ filegroup(name = "empty_strip")
 cc_toolchain(
     name = "llvm",
     all_files = "//toolchain/cc/llvm/files:all_files",
+    ar_files = "//toolchain/cc/llvm/files:ar_files",
     compiler_files = "//toolchain/cc/llvm/files:compiler_files",
     dwp_files = ":empty_dwp",
     linker_files = "//toolchain/cc/llvm/files:linker_files",
