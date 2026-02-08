@@ -2,6 +2,4 @@ load(":config.bzl", "toolchain_config")
 
 package(default_visibility = ["//toolchain/cc:__pkg__"])
 
-toolchain_config(
-    name = "config",
-)
+toolchain_config(name = "config")

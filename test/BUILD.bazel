@@ -1,6 +1,11 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary")
 
 cc_binary(
-    name = "hello",
+    name = "c-hello",
+    srcs = ["hello.c"],
+)
+
+cc_binary(
+    name = "cxx-hello",
     srcs = ["hello.cpp"],
 )

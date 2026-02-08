@@ -68,7 +68,7 @@ FEATURES = [
         flag_sets = [
             flag_set(
                 actions = [
-                    ACTION_NAMES.cpp_compile,
+                    ACTION_NAME_GROUPS.all_cc_compile_actions,
                 ],
                 flag_groups = [flag_group(flags = ["--verbose"])],
             ),
@@ -116,7 +116,7 @@ FEATURES = [
 def _toolchain_config_impl(ctx):
     # type: (ctx) -> struct
 
-    llvm_root = paths.dirname(paths.dirname(ctx.file._clangxx.path))
+    llvm_root = paths.dirname(paths.dirname(ctx.file._clang.path))
 
     return cc_common.create_cc_toolchain_config_info(
         ctx = ctx,
@@ -125,16 +125,16 @@ def _toolchain_config_impl(ctx):
         features = FEATURES,
         action_configs = [
             action_config(
+                action_name = ACTION_NAMES.c_compile,
+                tools = [tool(tool = ctx.file._clang)],
+            ),
+            action_config(
                 action_name = ACTION_NAMES.cpp_compile,
-                tools = [
-                    tool(tool = ctx.file._clangxx),
-                ],
+                tools = [tool(tool = ctx.file._clangxx)],
             ),
             action_config(
                 action_name = ACTION_NAMES.cpp_link_executable,
-                tools = [
-                    tool(tool = ctx.file._clangxx),
-                ],
+                tools = [tool(tool = ctx.file._clangxx)],
             ),
         ],
         cxx_builtin_include_directories = [
@@ -149,6 +149,10 @@ def _toolchain_config_impl(ctx):
 toolchain_config = rule(
     implementation = _toolchain_config_impl,
     attrs = {
+        "_clang": attr.label(
+            default = "@llvm//:bin/clang",
+            allow_single_file = True,
+        ),
         "_clangxx": attr.label(
             default = "@llvm//:bin/clang++",
             allow_single_file = True,
