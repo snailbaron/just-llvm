@@ -109,6 +109,16 @@ FEATURES = [
             ),
         ],
     ),
+    feature(
+        name = "fpic",
+        enabled = True,
+        flag_sets = [
+            flag_set(
+                actions = ACTION_NAME_GROUPS.all_cc_compile_actions,
+                flag_groups = [flag_group(flags = ["-fPIC"])],
+            ),
+        ],
+    ),
 ]
 
 def _toolchain_config_impl(ctx):
@@ -138,6 +148,10 @@ def _toolchain_config_impl(ctx):
                 action_name = ACTION_NAMES.cpp_link_static_library,
                 tools = [tool(tool = ctx.file._llvm_ar)],
                 implies = ["archiver_flags", "linker_param_file"],
+            ),
+            action_config(
+                action_name = ACTION_NAMES.cpp_link_dynamic_library,
+                tools = [tool(tool = ctx.file._clangxx)],
             ),
         ],
         cxx_builtin_include_directories = [
